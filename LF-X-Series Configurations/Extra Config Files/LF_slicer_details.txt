@@ -1,0 +1,47 @@
+******* CURA *********
+*** You will need to insert the following lines in your Machine Settings Start g-code section ***
+
+; Klipper START_PRINT macro parameters.
+;   If not listed they will default to firmware values.
+;   If listed and no value given, then the values will be null/empty which may cause problems
+; Z_OFFSET_ADJ - more negative the number moves the nozzle closer to the bed, tweaks existing Z offset in firmware
+; EXTRUDER_STEP_DISTANCE - replaces firmware extrusion rate value, higher values = less flow 
+;                         find your current value by checking the console monitor after running a print, you should see the value you're currently using
+; PRESSURE_ADVANCE - PA setting here overrides value defined in firmware
+; PRESSURE_ADVANCE_SMOOTH_TIME - setting here overrides value defined in firmware
+; BED_MESH_PROFILE_NAME - Name of bed mesh profile to be loaded after homing is completed, not needed if your bed mesh is named "default"
+
+START_PRINT BED_TEMP={material_bed_temperature_layer_0} EXTRUDER_TEMP={material_print_temperature_layer_0}
+
+;example with PA override:  START_PRINT BED_TEMP={material_bed_temperature_layer_0} EXTRUDER_TEMP={material_print_temperature_layer_0} PRESSURE_ADVANCE=.06
+
+***  You will need to insert the following line in your Machine Settings End G-code section ***
+
+END_PRINT
+
+*******************************************************************************************************************************
+
+********  For SuperSlicer (and probably Prusa Slicer) *********
+***  You will need to insert the following lines in your Filament Settings tab, Custom G-code, Start G-code box  ***
+
+; Klipper START_PRINT macro parameters.
+;   If not listed they will default to firmware values.
+;   If listed and no value given, then the values will be null/empty which may cause problems
+; Z_OFFSET_ADJ - more negative the number moves the nozzle closer to the bed, tweaks existing Z offset in firmware
+; EXTRUDER_STEP_DISTANCE - replaces firmware extrusion rate value, higher values = less flow
+; PRESSURE_ADVANCE - PA setting here overrides value defined in firmware
+; PRESSURE_ADVANCE_SMOOTH_TIME - setting here overrides value defined in firmware
+; BED_MESH_PROFILE_NAME - Name of bed mesh profile to be loaded after homing is completed
+
+START_PRINT BED_TEMP=[first_layer_bed_temperature] EXTRUDER_TEMP=[first_layer_temperature]
+
+;example with PA override:  START_PRINT BED_TEMP=[first_layer_bed_temperature] EXTRUDER_TEMP=[first_layer_temperature] PRESSURE_ADVANCE=.06
+
+;IF YOU USE RELATIVE EXTRUSION IN SUPERSLICER, YOU MUST ADD AN M83 BELOW THE START_PRINT MACRO CALL.
+;   OTHERWISE YOUR GCODE WILL HAVE RELATIVE E-LENGTHS BUT THE PRINT WILL USE THEM AS ABSOLUTE.
+;   LEADING TO THE PRINTER BOUNCING THE EXTRUDER BACK AND FORTH AND NOT REALLY DOING ANY EXTRUSION.
+;IF YOU DO NOT USE RELATIVE EXTRUSION IN SUPERSLICER, THEN NOTHING OTHER THAN THE START_PRINT MACRO CALL IS NEEDED.
+
+**   you will need to insert the following line in your Printer Settings, Custom G-code, End G-code box
+
+END_PRINT
